@@ -7,5 +7,4 @@ class UserResource < ApplicationResource
     has_one :resume
     has_many :reviews
     has_many :responses
-
 end

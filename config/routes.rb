@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   post '/auth/sign_in_user'
   post '/auth/sign_in_employer'
 
+  post '/auth/sign_up_user'
+  post '/auth/sign_up_employer'
+
   scope path: ApplicationResource.endpoint_namespace, defaults: { format: :jsonapi } do
     resources :tags
     resources :vacancy_tags

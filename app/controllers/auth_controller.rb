@@ -2,7 +2,6 @@ class AuthController < ApplicationController
     skip_before_action :authenticate!
 
     def sign_in_user
-        debugger
         user = User.find_by(email: sign_in_params[:email])
 
         if user&.authenticate(sign_in_params[:password])
@@ -15,7 +14,6 @@ class AuthController < ApplicationController
 
     def sign_up_user
         user = User.new(sign_up_params)
-        debugger
 
         if user.save
             token = user.generate_jwt
@@ -26,7 +24,6 @@ class AuthController < ApplicationController
     end
 
     def sign_in_employer
-        debugger
         employer = Employer.find_by(name: sign_in_params[:name])
 
         if employer&.authenticate(sign_in_params[:password])
@@ -38,7 +35,6 @@ class AuthController < ApplicationController
     end
 
     def sign_up_employer
-        debugger
         employer = Employer.new(sign_up_params)
 
         if employer.save

@@ -5,5 +5,4 @@ class ResponseResource < ApplicationResource
 
     belongs_to :user
     belongs_to :vacancy
-
 end

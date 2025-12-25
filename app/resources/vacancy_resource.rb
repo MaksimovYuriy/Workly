@@ -23,5 +23,7 @@ class VacancyResource < ApplicationResource
       scope.joins(:tags).where(tags: { name: value }).distinct
     end
   end
+
+  filter :employer_id, :integer
 end
 

@@ -6,7 +6,7 @@ class AuthController < ApplicationController
 
         if user&.authenticate(sign_in_params[:password])
             token = user.generate_jwt
-            render json: successful_response(token)
+            render json: successful_response(token, 'user', user.id)
         else
             render json: error_response, status: :unauthorized
         end
@@ -17,7 +17,7 @@ class AuthController < ApplicationController
 
         if user.save
             token = user.generate_jwt
-            render json: successful_response(token), status: :created
+            render json: successful_response(token, 'user', user.id), status: :created
         else
             render json: validation_error_response(user), status: :unprocessable_entity
         end
@@ -28,7 +28,7 @@ class AuthController < ApplicationController
 
         if employer&.authenticate(sign_in_params[:password])
             token = employer.generate_jwt
-            render json: successful_response(token)
+            render json: successful_response(token, 'company', employer.id)
         else
             render json: error_response, status: :unauthorized
         end
@@ -39,7 +39,7 @@ class AuthController < ApplicationController
 
         if employer.save
             token = employer.generate_jwt
-            render json: successful_response(token), status: :created
+            render json: successful_response(token, 'company', employer.id), status: :created
         else
             render json: validation_error_response(employer), status: :unprocessable_entity
         end
@@ -55,12 +55,14 @@ class AuthController < ApplicationController
         params.require(:data).require(:attributes).permit(:email, :name, :password, :password_confirmation)
     end
 
-    def successful_response(token)
+    def successful_response(token, role, resource_id)
         {
             data: {
                 type: :auth,
                 attributes: {
                     token: token,
+                    role: role,
+                    resource_id: resource_id.to_s,
                     message: "Successful"
                 }
             }
